@@ -3,7 +3,8 @@ class PaymentsController < ApplicationController
 
   def new
     @payment = Payment.new
-    @payments = Payment.all
+    @stop_payments = Payment.stop
+    @active_payments = Payment.active
   end
 
   def create
@@ -15,5 +16,11 @@ class PaymentsController < ApplicationController
     payment = Payment.find(params[:id])
     payment.cancel_subscription
     redirect_to new_payment_url, notice: '定期課金をキャンセルしました'
+  end
+
+  def restart
+    payment = Payment.find(params[:id])
+    payment.restart_subscription
+    redirect_to new_payment_url, notice: '定期課金を再開しました'
   end
 end
