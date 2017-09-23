@@ -1,13 +1,12 @@
 class PaymentsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :webhook
+
   def new
     @payment = Payment.new
   end
 
   def create
-    token = params['payjp-token']
-    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
-    customer = Payjp::Customer.create(card: token)
-    Payment.create(customer_id: customer.id)
+    Payment.create_subscription(params['payjp-token'])
     redirect_to new_payment_url, notice: '支払い情報を保存しました'
   end
 end
