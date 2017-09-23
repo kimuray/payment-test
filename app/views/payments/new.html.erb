@@ -4,3 +4,9 @@
 <%= form_for(@payment) do %>
  <script src="https://checkout.pay.jp/" class="payjp-button" data-key="<%= ENV['PAYJP_PUBLIC_KEY'] %>"></script>
 <% end %>
+
+<div>
+  <% @payments.each do |payment| %>
+    <%= link_to payment.subscription_id, payment_path(payment), method: :delete %><br>
+  <% end %>
+</div>
